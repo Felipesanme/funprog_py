@@ -1,64 +1,83 @@
 import readchar
 import os
 os.system('cls' if os.name == 'nt' else 'clear')
-maze = '''..###################
-....#...#...........#
-#.###.#.#.#.#.###.#.#
-#.#...#.#.#.#.#...#.#
-#.#.###.#.#####.#####
-#.....#.#.#...#...#.#
-###.#####.###.#.###.#
-#.........#.....#...#
-#.###########.#####.#
-#.#...#.....#...#...#
-#####.###.#.###.#.###
-#.....#...#.#...#...#
-#.###.###.#####.#.###
-#.#...#.#...#.......#
-#.#####.#.#########.#
-#.......#...#.......#
-#.#####.###.#.#####.#
-#...#.........#...#.#
-###.###.###.###.#.#.#
-#.....#.#.....#.#...#
-###################.#'''
+maze = '''..#######################
+......#.....#.#.....#...#
+#.#######.###.#####.###.#
+#...............#.......#
+#.#####.###.#####.#.#.###
+#.#.....#.#.#.....#.#...#
+#.###.###.#####.#######.#
+#.#.....#.........#...#.#
+#.#.#.#####.#######.###.#
+#.#.#.#.#.....#.#.#.....#
+#.###.#.#######.#.#.#.#.#
+#...#.#.......#.....#.#.#
+#####.#.#.#####.#######.#
+#.......#.#.......#.....#
+#####.###.###.#####.#.#.#
+#.....#...#...#...#.#.#.#
+#####.#.###.###.###.###.#
+#.#...#.........#...#.#.#
+#.#.#.#.###.#####.###.###
+#...#.#...#...#.....#...#
+#.###.#.#.#####.###.#.###
+#...#.#.#.#...#...#.#...#
+#####.#######.#.###.#.#.#
+#.......#.......#.....#.#
+#######################.#'''
 
 print(maze)
 
 mat_maze = list(maze.split("\n"))
 
+# print(mat_maze)
+# print(len(mat_maze))
+
 for i in range(len(mat_maze)):
     mat_maze[i] = list(mat_maze[i])
 
-
-
-tecla = readchar.readkey()
 px = 0
 py = 0
 player_pos = [px, py]
-start = (0,0)
+start = (px,py)
 end = (len(mat_maze),len(mat_maze))
 
+while start[0] <= py <= end[0] and start[1] <= px <= end[1]:
+    tecla = readchar.readkey()
 
-def direction(tecla, mat_maze, px, py):
+    dic_flechas = {readchar.key.UP: "Arriba", readchar.key.DOWN: "Abajo",
+                   readchar.key.LEFT: "Izquierda", readchar.key.RIGHT: "Derecha"}
 
-    dic_flechas = {readchar.key.UP: mat_maze[px][py - 1], readchar.key.DOWN: mat_maze[px][py + 20],
-                   readchar.key.LEFT: mat_maze[px - 1][py], readchar.key.RIGHT: mat_maze[px + 1][py]
-                   }
+    if dic_flechas.get(tecla) == "Arriba" and mat_maze[py-1][px] != "#":
+        py -= 1
+        mat_maze[py+1][px] = "."
+    elif dic_flechas.get(tecla) == "Abajo" and mat_maze[py + 1][px] != "#":
+        py += 1
+        mat_maze[py-1][px] = "."
+    elif dic_flechas.get(tecla) == "Izquierda" and mat_maze[py][px - 1] != "#":
+        px -= 1
+        mat_maze[py][px+1] = "."
+    elif dic_flechas.get(tecla) == "Derecha" and mat_maze[py][px + 1] != "#":
+        px += 1
+        mat_maze[py][px-1] = "."
+    else:
+        mat_maze [py][px] = "p"
 
-    print(dic_flechas.get(tecla))
+    mat_maze [py][px] = "p"
+    os.system('cls' if os.name == 'nt' else 'clear')
+    print(py,px)
+    # print(mat_maze)
 
-direction(tecla, mat_maze, px, py)
-#
-# def clean_screen(n:int):
-#     k = readchar.readkey()
-#     cont = 1
-#     while cont <= 50:
-#         k = readchar.readkey()
-#         os.system('cls' if os.name == 'nt' else 'clear')
-#         print(cont)
-#         cont += 1
-#     os.system('cls' if os.name == 'nt' else 'clear')
+    maze=""
+    for row in range(len(mat_maze)):
+        maze += "".join(mat_maze[row]) + "\n"
+    print(maze)
+
+
+    # maze = sep.join(mat_maze)
+
+
 #
 # def main():
 #
