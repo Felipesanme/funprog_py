@@ -34,13 +34,13 @@ class Vector:
 		return str(self.arreglo)
 
 
-# Creación de objeto:
+# creando los vectores
 vector1 = Vector([2, 2, 2, 2])
 vector2 = Vector([7, 8, 9, 11])
 print(vector1)
 print(vector2)
 
-# Método Sumar:
+# Prueba métodos
 
 suma = vector1 + vector2
 print(suma)
