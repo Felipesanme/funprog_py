@@ -1,8 +1,9 @@
 from clases_pint import Juego, JuegoArchivo
 
 def main():
-	Juego()
-	JuegoArchivo()
+
+	j = JuegoArchivo()
+	j.play()
 
 
 if __name__ == "__main__":
