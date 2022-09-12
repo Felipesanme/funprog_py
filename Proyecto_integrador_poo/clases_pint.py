@@ -8,19 +8,27 @@ from dataclasses import dataclass
 @dataclass
 class Juego():
 
-	maze: list
-	start: tuple
-	end: tuple
-	x_pos: int
-	y_pos: int
+	maze: list = None
+	start: tuple = None
+	end: tuple = None
+	x_pos: int = None
+	y_pos: int = None
+
 
 	def play(self):
 
-		while self.start[0] <= self.y_pos <= self.end[0] and self.start[1] <= self.x_pos <= self.end[1]:
+		# maze_str = ""
+		# for row in range(len(self.maze)):
+		# 	maze_str += "".join(self.maze[row]) + "\n"
+		# print(maze_str)
+
+		while self.start[0] <= self.y_pos <= self.end[0] and self.start[1] <= self.x_pos <= self.end[
+			1]:
+
 			tecla = readchar.readkey()
 
 			dic_keys = {readchar.key.UP: "Arriba", readchar.key.DOWN: "Abajo",
-						   readchar.key.LEFT: "Izquierda", readchar.key.RIGHT: "Derecha"}
+						readchar.key.LEFT: "Izquierda", readchar.key.RIGHT: "Derecha"}
 
 			if self.y_pos == (self.end[0] - 1) and self.x_pos == (self.end[1] - 2):
 				break
@@ -48,47 +56,53 @@ class Juego():
 
 			os.system('cls' if os.name == 'nt' else 'clear')
 
-			self.maze = ""
+			maze_str = ""
 			for row in range(len(self.maze)):
-				maze += "".join(self.maze[row]) + "\n"
-			print(self.maze)
+				maze_str += "".join(self.maze[row]) + "\n"
+			print(maze_str)
 
 			if self.y_pos == self.end[0] and self.x_pos == self.end[1] - 1:
 				break
 
+
 @dataclass
 class JuegoArchivo(Juego):
+	path_maps: str = None
+	file_list: list = None
+	rand_map: str = None
+	path: str = None
 
-	path_maps: str
-	file_list: list
-	rand_map: str
-	path: str
+	def __init__(self):
+		self.__map_select()
+		self.__init_coord()
+		self.__map_create()
 
-	def map_select(self):
+		self.x_pos = self.start[1]
+		self.y_pos = self.start[0]
 
+	def __map_select(self):
 		self.path_maps = "/Users/felipe/Documents/ADA/FP Python/funprog_py/Proyecto_integrador_poo/Mapas"
 		self.file_list = list(filter(lambda f: ".txt" in f, os.listdir(self.path_maps)))
 		self.rand_map = random.choice(self.file_list)
 		self.path = f"{self.path_maps}/{self.rand_map}"
 
-	def init_coord(self, juego: Juego):
-
+	def __init_coord(self):
 		with open(self.path) as f:
 			lines = f.read()
 			first_line = lines.split("\n", 1)[0]
 			a, b, c, d = list(map(int, first_line.split()))
-			juego.start = (a, b)
-			juego.end = (c, d)
+			self.start = (a, b)
+			self.end = (c, d)
 
-	def map_create(self, juego: Juego):
-
+	def __map_create(self):
 		with open(self.path) as f:  # imprimir con el salto de línea
 			next(f)
-			juego.maze = f.readlines()
-			juego.maze = [line.strip() for line in maze]
+			self.maze = f.readlines()
+			self.maze = [line.strip() for line in self.maze]
 
-		for i in range(len(juego.maze)):
-			juego.maze[i] = list(juego.maze[i])
+		for i in range(len(self.maze)):
+			self.maze[i] = list(self.maze[i])
+
 
 if __name__ == "__main__":
 	main()
